@@ -1,6 +1,6 @@
 #!/bin/bash
 # Bash Trap commmand
-#trap bashtrap INT
+trap bashtrap INT
 
 purple='\e[0;35m'
 yellow='\e[1;33m'
@@ -35,9 +35,9 @@ pacman="gconf lib32-libvorbis sfml crypto++ lib32-libgcrypt curl lib32-nss lib32
 lib32-libxrandr lib32-gtk2 lib32-pango libtiger lib32-gdk-pixbuf2"
 
 # Bash trap function:
-#bashtrap () {
-#echo -e "${red}CTRL+C Detected !... If you want exit please use \"Q\" or \"q\".${nc}"
-#}
+bashtrap () {
+    echo -e "${red}CTRL+C Detected !... If you want exit please use cancel boutton.${nc}"
+}
 
 # Function used to ask if the user want to launch the game :
 function LaunchGame () {
@@ -87,7 +87,7 @@ function Check64bit () {
 		echo "You use a 64 bit Linux"
 		# If debian/Ubuntu
 		if [ ${1} = "dpkg" ];then
-			echo -e "${yellow}Add i386 arch${nc}"
+			echo -e "Add i386 arch"
 			sudo dpkg --add-architecture i386
 		fi
 		
@@ -141,11 +141,11 @@ function PandaFix () {
 	if [[ -x "$(which apt-get)" ]]; then
 		Check64bit dpkg
 		echo "Installing missing libs :"
-		sudo aptitude update && sudo aptitude install ${apt}
+		sudo apt-get update && sudo apt-get install ${apt}
 	elif [[ -x "$(which aptitude)" ]]; then
 		Check64bit dpkg
 		echo "Installing missing libs :"
-		sudo apt-get update && sudo apt-get install ${apt}
+		sudo aptitude update && sudo aptitude install ${apt}
 	fi
 	
 	## Red Hat Flavours
@@ -178,10 +178,11 @@ Cleaning () {
 #Show menu :
 while true; do
 
-	test=$(zenity --list --radiolist --title="Choose your Workaround" --column="Choose" --column="Fix Name" --column="Description" \
+	test=$(zenity --width=520 --height=220 --list --radiolist --title="Dungeon Defender Linux Fix :" \
+	    --text="Choose your fix please." --column="Choice" --column="Fix Name" --column="Description" \
 		TRUE "[SymLink Fix]" "Create all symlinks needed to fix your issue. (All Linux OS)" \
-		FALSE "[Package Fix]" "Le dictionnaire GNOME ne prend pas de proxy en charge" \
-		FALSE "[Show my Libs]" "L'édition de menu ne fonctionne pas avec GNOME 2.0" \
+		FALSE "[Package Fix]" "Install all package needed for your game. (All Linux OS)" \
+		FALSE "[Show my Libs]" "Show all directories used to provide your Libs (All Linux OS)" \
 		FALSE "[Cleaning]" "Remove Symlink")
 	
 	case ${test} in
