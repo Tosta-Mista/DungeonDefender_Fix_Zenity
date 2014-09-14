@@ -201,7 +201,7 @@ while true; do
 			Cleaning
 			;;
 		*)
-			if [[ &? -eq -1 ]]; then
+			if [ $? -eq 1 ]; then
 				exit 0;
 			fi
 			echo "${test} is not available"
